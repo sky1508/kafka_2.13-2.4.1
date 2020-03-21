@@ -1,0 +1,38 @@
+
+Run the below cmd to start zookeeper in new cmd window from kafka folder path
+.\bin\windows\zookeeper-server-start.bat .\config\zookeeper.properties
+
+Run below in new cmd window
+.\bin\windows\kafka-server-start.bat .\config\server.properties
+
+Run below in new (3rd) window, other than previous two windows
+.\bin\windows\kafka-topics.bat --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic dev1
+
+List the topics:
+.\bin\windows\kafka-topics.bat --list --zookeeper localhost:2181
+
+Push some messages to topc:
+.\bin\windows\kafka-console-producer.bat --broker-list localhost:9092 --topic dev1
+
+Consumer:
+.\bin\windows\kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic dev1
+
+
+Describe Topic: 
+.\bin\windows\kafka-topics.bat --describe --zookeeper localhost:9092 --topic [Topic Name]
+.\bin\windows\kafka-topics.bat --describe --zookeeper localhost:9092 --topic dev1
+
+Read messages from the beginning
+Before version < 2.0: 
+.\bin\windows\kafka-console-consumer.bat --zookeeper localhost:9092 --topic [Topic Name] --from-beginning
+.\bin\windows\kafka-console-consumer.bat --zookeeper localhost:9092 --topic dev1 --from-beginning
+    
+After version > 2.0:  
+.\bin\windows\kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic [Topic Name] --from-beginn
+.\bin\windows\kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic dev1 --from-beginning
+
+Delete Topic: 
+.\bin\windows\kafka-run-class.bat kafka.admin.TopicCommand --delete --topic [topic_to_delete] --zookeeper localhost:2181
+.\bin\windows\kafka-run-class.bat kafka.admin.TopicCommand --delete --topic dev1 --zookeeper localhost:2181 		//works
+.\bin\windows\kafka-run-class.bat kafka.admin.TopicCommand --delete --topic dev1 --bootstrap-server localhost:9092	//works
+
